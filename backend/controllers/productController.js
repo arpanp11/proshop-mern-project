@@ -1,6 +1,6 @@
-import asyncHandler from 'express-async-handler';
+const asyncHandler = require('express-async-handler');
 
-import Product from '../models/productModel.js';
+const Product = require('../models/productModel.js');
 
 //@desc Fetch all products
 //@route GET /api/products
@@ -79,15 +79,8 @@ const createProduct = asyncHandler(async (req, res) => {
 // @route   PUT /api/products/:id
 // @access  Private/Admin
 const updateProduct = asyncHandler(async (req, res) => {
-  const {
-    name,
-    price,
-    description,
-    image,
-    brand,
-    category,
-    countInStock,
-  } = req.body;
+  const { name, price, description, image, brand, category, countInStock } =
+    req.body;
 
   const product = await Product.findById(req.params.id);
 
@@ -159,7 +152,7 @@ const getTopProducts = asyncHandler(async (req, res) => {
   res.json(products);
 });
 
-export {
+module.exports = {
   getProductById,
   getProducts,
   deleteProduct,

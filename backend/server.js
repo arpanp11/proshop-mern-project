@@ -1,18 +1,19 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import colors from 'colors';
-import path from 'path';
-import morgan from 'morgan';
+const express = require('express');
+const dotenv = require('dotenv').config();
+const colors = require('colors');
+const path = require('path');
+const morgan = require('morgan');
 
-import connectDB from './config/db.js';
-import productRoute from './routes/productRoutes.js';
-import userRoute from './routes/userRoutes.js';
-import orderRoute from './routes/orderRoutes.js';
-import uploadRoute from './routes/uploadRoutes.js';
-import { notFound, errorHandler } from './middleware/errorMiddleware.js';
+const connectDB = require('./config/db.js');
+const productRoute = require('./routes/productRoutes.js');
+const userRoute = require('./routes/userRoutes.js');
+const orderRoute = require('./routes/orderRoutes.js');
+const uploadRoute = require('./routes/uploadRoutes.js');
+const { notFound, errorHandler } = require('./middleware/errorMiddleware.js');
 
-dotenv.config();
+const PORT = process.env.PORT || 5000;
 
+// connect to database
 connectDB();
 
 const app = express();
@@ -36,14 +37,11 @@ app.get('/api/config/paypal', (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)
 );
 
-const __dirname = path.resolve();
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 app.use(notFound);
 
 app.use(errorHandler);
-
-const PORT = process.env.PORT || 5000;
 
 app.listen(
   PORT,
